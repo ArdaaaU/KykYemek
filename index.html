@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mart 2026 Yemek Rehberi | GSB Manisa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --primary: #0f172a;
+            --accent: #dc2626;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --today-glow: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            background-attachment: fixed;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        header {
+            padding: 50px 20px;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        header h1 { margin: 0; font-size: 1rem; letter-spacing: 3px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        header h2 { margin: 10px 0; font-size: 2.2rem; font-weight: 800; color: var(--primary); }
+        .badge { display: inline-block; padding: 8px 20px; background: var(--primary); color: white; border-radius: 50px; font-size: 0.85rem; margin-top: 10px; font-weight: 600; }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px 80px; }
+
+        .calendar-nav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 20px; text-align: center; }
+        .calendar-nav div { font-weight: 700; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
+
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; }
+
+        .day-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            min-height: 150px;
+            padding: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .day-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 30px -10px rgba(0, 0, 0, 0.1); border-color: var(--primary); }
+        
+        .day-number { font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        .main-dish-preview { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; line-height: 1.4; }
+
+        .is-today { background: #fffbeb !important; border: 2px solid var(--today-glow) !important; }
+        .today-tag { position: absolute; top: 15px; right: 15px; font-size: 0.65rem; background: var(--today-glow); color: white; padding: 3px 8px; border-radius: 6px; font-weight: 800; }
+
+        .empty-slot { background: rgba(0, 0, 0, 0.03); border: 1px dashed #cbd5e1; cursor: default; }
+
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); z-index: 9999;
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background: white; width: 90%; max-width: 500px; border-radius: 30px;
+            padding: 40px; position: relative; transform: translateY(20px); transition: all 0.3s ease;
+        }
+
+        .modal-active { display: flex; opacity: 1; }
+        .modal-active .modal-content { transform: translateY(0); }
+
+        .close-modal { position: absolute; top: 25px; right: 25px; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; font-weight: bold; }
+
+        .modal-header h3 { font-size: 2.5rem; margin: 0; color: var(--primary); }
+        .modal-header p { color: var(--text-muted); margin: 5px 0 30px; font-size: 1.1rem; }
+
+        .meal-detail-grid { display: grid; gap: 25px; }
+        .detail-item { display: flex; align-items: center; gap: 20px; }
+        .icon-circle { width: 48px; height: 48px; background: #f1f5f9; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+
+        .detail-text label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 1px; }
+        .detail-text span { font-size: 1.1rem; font-weight: 600; color: #334155; }
+
+        .energy-footer { margin-top: 40px; padding-top: 25px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .kcal-tag { background: #fef2f2; color: #b91c1c; padding: 10px 20px; border-radius: 15px; font-weight: 800; font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .calendar-nav div { font-size: 0.65rem; }
+            .calendar-grid { gap: 10px; }
+            .day-card { min-height: 100px; padding: 12px; border-radius: 15px; }
+            .main-dish-preview { display: none; }
+            .day-number { font-size: 1.2rem; }
+            .modal-content { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>T.C. MANİSA VALİLİĞİ</h1>
+    <h2>Mart 2026 Yemek Menüsü</h2>
+    <div class="badge">Gençlik ve Spor İl Müdürlüğü</div>
+</header>
+
+<div class="container">
+    <div class="calendar-nav">
+        <div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div>
+    </div>
+    <div id="calendar" class="calendar-grid"></div>
+</div>
+
+<div id="overlay" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()">×</button>
+        <div class="modal-header">
+            <h3 id="m-date">01</h3>
+            <p id="m-day">Pazartesi</p>
+        </div>
+        
+        <div class="meal-detail-grid">
+            <div class="detail-item">
+                <div class="icon-circle">🥣</div>
+                <div class="detail-text"><label>Günün Çorbası</label><span id="m-corba">-</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="icon-circle">🍖</div>
+                <div class="detail-text"><label>Ana Yemek (%80)</label><span id="m-ana">-</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="icon-circle">🥗</div>
+                <div class="detail-text"><label>Alternatif (%20)</label><span id="m-alt">-</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="icon-circle">🍚</div>
+                <div class="detail-text"><label>Yardımcı Yemek</label><span id="m-yan">-</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="icon-circle">🍎</div>
+                <div class="detail-text"><label>Tamamlayıcı</label><span id="m-ek">-</span></div>
+            </div>
+        </div>
+
+        <div class="energy-footer">
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Arda Utancak<br>Web Site Owner </span>
+            <div class="kcal-tag" id="m-kcal">0 kkal</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const menuData = {
+        "1": { d: "Pazar", c: "Yayla Çorbası", a: "Kuru Fasulye Yemeği", s: "Sebze Sote", y: "Pirinç Pilavı", e: "Su, Çeyrek Ekmek", k: "1250-1280" },
+        "2": { d: "Pazartesi", c: "Domates Çorbası", a: "Izgara Köfte", s: "Karışık Dolma (Yoğurt ile)", y: "Erişte", e: "Biber Tarator, Su", k: "1090-1135" },
+        "3": { d: "Salı", c: "Mercimek Çorbası", a: "Tavuk Kavurma", s: "Sebze Graten", y: "Mısırlı Pirinç Pilavı", e: "Supangle, Su", k: "1165-1260" },
+        "4": { d: "Çarşamba", c: "Tarhana Çorbası", a: "Et Tantuni", s: "Mücver (Yoğurt ile)", y: "Sebzeli Şehriye Pilavı", e: "Ege Salata, Su", k: "820-1065" },
+        "5": { d: "Perşembe", c: "Ezogelin Çorbası", a: "Tavuk Fajita", s: "Lahana Sarması (Yoğurt ile)", y: "Makarna (Sos ile)", e: "Cacık, Su", k: "1020-1080" },
+        "6": { d: "Cuma", c: "Mercimek Çorbası", a: "Tas Kebabı", s: "Kuru Fasülye Yemeği", y: "Pirinç Pilavı", e: "Cevizli Baklava, Su", k: "1225-1415" },
+        "7": { d: "Cumartesi", c: "Yayla Çorbası", a: "Tavuk Külbastı", s: "Taze Fasulye Yemeği", y: "Makarna", e: "Pembe Sultan, Su", k: "965-990" },
+        "8": { d: "Pazar", c: "Domates Çorbası", a: "İzmir Köfte", s: "Karışık Kızartma (Yoğurt)", y: "Nohutlu Bulgur Pilavı", e: "Muz, Su", k: "1050-1090" },
+        "9": { d: "Pazartesi", c: "Ezogelin Çorbası", a: "Mantarlı Tavuk Sote", s: "Karışık Dolma", y: "Makarna (Sos ile)", e: "Tulumba Tatlısı, Su", k: "1230-1310" },
+        "10": { d: "Salı", c: "Mercimek Çorbası", a: "Tire Köfte", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Ayran, Su", k: "1085-1130" },
+        "11": { d: "Çarşamba", c: "Tarhana Çorbası", a: "Beşamel Soslu Tavuk", s: "İmambayıldı", y: "Spagetti", e: "Aysberg Salata, Su", k: "930-950" },
+        "12": { d: "Perşembe", c: "Ezogelin Çorbası", a: "Çiftlik Kebabı", s: "Ispanak Yemeği", y: "Pirinç Pilavı", e: "Haydari, Su", k: "995-1000" },
+        "13": { d: "Cuma", c: "Domates Çorbası", a: "Tavuklu Sultan Kebabı", s: "Patates Yemeği", y: "Yeşil Bulgur Pilavı", e: "Karışık Salata, Su", k: "1135-1230" },
+        "14": { d: "Cumartesi", c: "Yoğurt Çorbası", a: "Kuru Fasülye Yemeği", s: "Sebze Sote", y: "Şehriyeli Pirinç Pilavı", e: "Islak Kek, Su", k: "1150-1220" },
+        "15": { d: "Pazar", c: "Mercimek Çorbası", a: "Sebzeli Fırın Tavuk", s: "Karışık Sarma (Yoğurt)", y: "Makarna (Sos ile)", e: "Havuç Tarator, Su", k: "1050-1120" },
+        "16": { d: "Pazartesi", c: "Ezogelin Çorbası", a: "Et Sote", s: "Karnabahar Kızartması", y: "Pirinç Pilavı", e: "İrmik Helvası, Su", k: "1400-1420" },
+        "17": { d: "Salı", c: "Tarhana Çorbası", a: "Tavuk Şiş", s: "Mevsim Türlü", y: "Bulgur Pilavı", e: "Haydari, Su", k: "920-1125" },
+        "18": { d: "Çarşamba", c: "Yayla Çorbası", a: "Beğendili Izgara Köfte", s: "Mücver (Yoğurt)", y: "Makarna", e: "Havuç-Aysberg Salata", k: "915-1115" },
+        "19": { d: "Perşembe", c: "Mercimek Çorbası", a: "Tavuk Tantuni", s: "Barbunya Yemeği", y: "Mısırlı Pirinç Pilavı", e: "Portakal, Su", k: "1090-1190" },
+        "20": { d: "Cuma", c: "Toyga / Domates Çorbası", a: "Çoban Kavurma", s: "İmambayıldı", y: "Şehriyeli Bulgur Pilavı", e: "Cevizli Baklava, Su", k: "1315-1495" },
+        "21": { d: "Cumartesi", c: "Ezogelin / Yoğurt Çorbası", a: "Çıtır Tavuk", s: "Taze Fasulye Yemeği", y: "Pirinç Pilavı", e: "Rus Salatası, Su", k: "1195-1360" },
+        "22": { d: "Pazar", c: "Tarhana / Şehriye Çorbası", a: "Kıymalı Ali Nazik", s: "Karışık Dolma", y: "Spagetti (Sos ile)", e: "Kaşık Salata, Su", k: "845-1055" },
+        "23": { d: "Pazartesi", c: "Mercimek / Yüksük Çorbası", a: "Tavuk Çökertme", s: "Sebze Graten", y: "Makarna (Sos ile)", e: "Cacık, Su", k: "1015-1290" },
+        "24": { d: "Salı", c: "Domates / Sebze Çorbası", a: "Etli Sultan Kebabı", s: "Kuru Fasulye Yemeği", y: "Şehriyeli Pirinç Pilavı", e: "Şakşuka, Su", k: "875-1265" },
+        "25": { d: "Çarşamba", c: "Ezogelin / Düğün Çorbası", a: "Çıtır Tavuk Burger", s: "Karışık Kızartma", y: "Makarna (Sos ile)", e: "Ayran, Su", k: "990-1245" },
+        "26": { d: "Perşembe", c: "Tarhana / Toyga Çorbası", a: "Manisa Kebabı", s: "Çıtır Karnabahar", y: "Bulgur Pilavı", e: "Kıvırcık Salata, Su", k: "930-1015" },
+        "27": { d: "Cuma", c: "Mercimek / Domates Çorbası", a: "Tavuk Külbastı", s: "Lahana Sarması", y: "Makarna (Sos ile)", e: "Haydari, Su", k: "960-1120" },
+        "28": { d: "Cumartesi", c: "Tavuksuyu / Yüksük Çorbası", a: "Nohut Yemeği", s: "Sebze Graten", y: "Pirinç Pilavı", e: "Haşhaşlı Revani", k: "1280-1440" },
+        "29": { d: "Pazar", c: "Ezogelin / Sebze Çorbası", a: "Orman Kebabı", s: "Mücver (Yoğurt ile)", y: "Bulgur Pilavı", e: "Ege Salata, Su", k: "890-1110" },
+        "30": { d: "Pazartesi", c: "Tarhana Çorbası", a: "Tavuk Kavurma", s: "Karışık Dolma", y: "Makarna (Sos ile)", e: "Havuç Tarator", k: "1065-1085" },
+        "31": { d: "Salı", c: "Mercimek Çorbası", a: "Sulu Köfte", s: "Barbunya Yemeği", y: "Mısırlı Pirinç Pilavı", e: "Yoğurt", k: "990-1255" }
+    };
+
+    const container = document.getElementById('calendar');
+    const today = 5; // Bugün 5 Mart 2026
+
+    function build() {
+        for(let i=0; i<6; i++) {
+            const div = document.createElement('div');
+            div.className = 'day-card empty-slot';
+            container.appendChild(div);
+        }
+
+        for(let day=1; day<=31; day++) {
+            const data = menuData[day];
+            const card = document.createElement('div');
+            card.className = `day-card ${day === today ? 'is-today' : ''}`;
+            card.style.position = "relative";
+            card.innerHTML = `
+                ${day === today ? '<div class="today-tag">BUGÜN</div>' : ''}
+                <div class="day-number">${day}</div>
+                <div class="main-dish-preview">${data.a}</div>
+            `;
+            card.onclick = () => openModal(day);
+            container.appendChild(card);
+        }
+    }
+
+    function openModal(day) {
+        const d = menuData[day];
+        document.getElementById('m-date').innerText = day < 10 ? '0' + day : day;
+        document.getElementById('m-day').innerText = d.d + " Mart 2026";
+        document.getElementById('m-corba').innerText = d.c;
+        document.getElementById('m-ana').innerText = d.a;
+        document.getElementById('m-alt').innerText = d.s;
+        document.getElementById('m-yan').innerText = d.y;
+        document.getElementById('m-ek').innerText = d.e;
+        document.getElementById('m-kcal').innerText = `⚡ ${d.k} kkal`;
+        document.getElementById('overlay').classList.add('modal-active');
+    }
+
+    function closeModal() { document.getElementById('overlay').classList.remove('modal-active'); }
+    window.onclick = (e) => { if(e.target == document.getElementById('overlay')) closeModal(); }
+    build();
+</script>
+
+</body>
+</html>
