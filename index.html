@@ -11,8 +11,8 @@
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-border: rgba(255, 255, 255, 0.4);
             --primary: #0f172a;
-            --accent: #2563eb; /* Mavi - Kahvaltı için */
-            --accent-dinner: #dc2626; /* Kırmızı - Akşam için */
+            --accent: #2563eb; 
+            --accent-dinner: #dc2626; 
             --text-main: #1e293b;
             --text-muted: #64748b;
             --today-glow: #f59e0b;
@@ -24,6 +24,7 @@
             background-attachment: fixed;
             margin: 0;
             color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
         }
 
         header {
@@ -34,19 +35,19 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
-        header h1 { margin: 0; font-size: 0.9rem; letter-spacing: 3px; color: #64748b; font-weight: 700; text-transform: uppercase; }
-        header h2 { margin: 10px 0; font-size: 2rem; font-weight: 800; color: var(--primary); }
+        header h1 { margin: 0; font-size: 0.8rem; letter-spacing: 3px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        header h2 { margin: 10px 0; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
 
-        /* Menü Seçici Sekmeler */
         .menu-tabs {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 10px 25px;
+            padding: 12px 20px;
             border-radius: 50px;
             border: 2px solid #e2e8f0;
             background: white;
@@ -54,6 +55,7 @@
             font-weight: 700;
             transition: all 0.3s;
             color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .tab-btn.active {
@@ -62,83 +64,92 @@
             border-color: var(--primary);
         }
 
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px 80px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px 80px; }
 
-        .calendar-nav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 20px; text-align: center; }
-        .calendar-nav div { font-weight: 700; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; }
+        .calendar-nav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 15px; text-align: center; }
+        .calendar-nav div { font-weight: 700; color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
 
         .day-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            min-height: 120px;
-            padding: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 18px;
+            min-height: 100px;
+            padding: 15px;
+            transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
-        .day-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
+        .day-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
         
-        .day-number { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
-        .main-item-preview { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .day-number { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
+        .main-item-preview { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
         .is-today { background: #fffbeb !important; border: 2px solid var(--today-glow) !important; }
-        .today-tag { position: absolute; top: 12px; right: 12px; font-size: 0.6rem; background: var(--today-glow); color: white; padding: 2px 6px; border-radius: 4px; font-weight: 800; }
+        .today-tag { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; background: var(--today-glow); color: white; padding: 2px 5px; border-radius: 4px; font-weight: 800; }
 
-        .empty-slot { background: rgba(0, 0, 0, 0.03); border: 1px dashed #cbd5e1; cursor: default; }
+        .empty-slot { background: rgba(0, 0, 0, 0.02); border: 1px dashed #cbd5e1; cursor: default; }
 
         /* Modal */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); z-index: 9999;
-            align-items: center; justify-content: center;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 9999;
+            align-items: center; justify-content: center; padding: 15px; box-sizing: border-box;
         }
 
         .modal-content {
-            background: white; width: 90%; max-width: 500px; border-radius: 30px;
-            padding: 35px; position: relative; animation: slideUp 0.3s ease;
+            background: white; width: 100%; max-width: 450px; border-radius: 25px;
+            padding: 30px; position: relative; animation: slideUp 0.3s ease-out;
+            max-height: 90vh; overflow-y: auto;
         }
 
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .close-modal { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+        .close-modal { position: absolute; top: 15px; right: 15px; background: #f1f5f9; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
 
-        .modal-header h3 { font-size: 2.2rem; margin: 0; color: var(--primary); }
-        .modal-header p { color: var(--text-muted); margin: 5px 0 25px; }
+        .modal-header h3 { font-size: 2rem; margin: 0; color: var(--primary); }
+        .modal-header p { color: var(--text-muted); margin: 5px 0 25px; font-weight: 600; }
 
-        .detail-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 18px; }
-        .icon-circle { width: 40px; height: 40px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .detail-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+        .detail-item:last-of-type { border-bottom: none; }
+        
+        .icon-circle { width: 44px; height: 44px; background: #f8fafc; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
 
-        .detail-text label { display: block; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
-        .detail-text span { font-size: 1rem; font-weight: 600; color: #334155; }
+        .detail-text label { display: block; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+        .detail-text span { font-size: 0.95rem; font-weight: 600; color: #334155; line-height: 1.2; }
 
-        .kcal-tag { background: #f1f5f9; padding: 10px 15px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; display: inline-block; margin-top: 20px; }
+        .kcal-tag { background: #f1f5f9; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; display: block; text-align: center; margin-top: 20px; color: var(--primary); }
 
-        .ramazan-note { font-size: 0.7rem; color: #ef4444; font-weight: 600; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
+        .ramazan-note { font-size: 0.75rem; color: #ef4444; font-weight: 600; margin-top: 15px; text-align: center; line-height: 1.4; padding: 10px; background: #fef2f2; border-radius: 10px; }
 
-        @media (max-width: 768px) {
-            .calendar-grid { gap: 8px; }
-            .day-card { min-height: 80px; padding: 10px; border-radius: 15px; }
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            header { padding: 30px 15px 15px; }
+            header h2 { font-size: 1.4rem; }
+            .calendar-grid, .calendar-nav { gap: 6px; }
+            .day-card { min-height: 60px; padding: 10px 5px; border-radius: 12px; align-items: center; }
+            .day-number { font-size: 1.1rem; margin-bottom: 0; }
             .main-item-preview { display: none; }
-            .day-number { font-size: 1.1rem; }
-            .tab-btn { padding: 8px 15px; font-size: 0.8rem; }
+            .today-tag { font-size: 0.45rem; top: 4px; right: 4px; padding: 1px 3px; }
+            .modal-content { padding: 25px 20px; }
+            .modal-header h3 { font-size: 1.6rem; }
+            .tab-btn { padding: 10px 15px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Made By Arda Utancak</h1>
+    <h1>made by Arda Utancak</h1>
     <h2>Mart 2026 Yemek Rehberi</h2>
     <div class="menu-tabs">
-        <button class="tab-btn active" onclick="switchMenu('dinner')">Akşam Yemeği</button>
-        <button class="tab-btn" onclick="switchMenu('breakfast')">Kahvaltı</button>
+        <button class="tab-btn active" onclick="switchMenu('dinner', event)">Akşam Yemeği</button>
+        <button class="tab-btn" onclick="switchMenu('breakfast', event)">Kahvaltı</button>
     </div>
 </header>
 
@@ -169,6 +180,7 @@
     let currentMode = 'dinner';
     const today = 5; // Bugün: 5 Mart 2026
 
+    // Veri setleri (Değiştirilmedi)
     const dinnerData = {
         "1": { d: "Pazar", c: "Yayla Çorbası", a: "Kuru Fasulye Yemeği", s: "Sebze Sote", y: "Pirinç Pilavı", e: "Su, Çeyrek Ekmek", k: "1250-1280" },
         "2": { d: "Pazartesi", c: "Domates Çorbası", a: "Izgara Köfte", s: "Karışık Dolma (Yoğurt ile)", y: "Erişte", e: "Biber Tarator, Su", k: "1090-1135" },
@@ -242,7 +254,6 @@
         calendar.innerHTML = '';
         const dataSet = mode === 'dinner' ? dinnerData : breakfastData;
 
-        // 1 Mart Pazar olduğu için Pazartesi başlangıçlı takvimde 6 boşluk.
         for(let i=0; i<6; i++) {
             const div = document.createElement('div');
             div.className = 'day-card empty-slot';
@@ -288,19 +299,24 @@
 
         document.getElementById('m-kcal').innerText = `⚡ Ortalama ${d.k} kkal`;
         document.getElementById('overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Scrollu engelle
     }
 
-    function switchMenu(mode) {
+    function switchMenu(mode, event) {
         currentMode = mode;
         const btns = document.querySelectorAll('.tab-btn');
         btns.forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
+        event.currentTarget.classList.add('active');
         
         document.documentElement.style.setProperty('--accent', mode === 'dinner' ? 'var(--accent-dinner)' : '#2563eb');
         build(mode);
     }
 
-    function closeModal() { document.getElementById('overlay').style.display = 'none'; }
+    function closeModal() { 
+        document.getElementById('overlay').style.display = 'none'; 
+        document.body.style.overflow = 'auto'; // Scrollu aç
+    }
+
     window.onclick = (e) => { if(e.target == document.getElementById('overlay')) closeModal(); }
     
     build('dinner');
@@ -308,7 +324,3 @@
 
 </body>
 </html>
-
-
-
-
