@@ -177,6 +177,7 @@
 </div>
 
 <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     let currentMode = 'dinner';
     const today = 5; // Bugün: 5 Mart 2026
 
@@ -321,6 +322,8 @@
     
     build('dinner');
 </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 
 </body>
 </html>
+
