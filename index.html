@@ -179,9 +179,10 @@
 <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     let currentMode = 'dinner';
-    const today = 5; // Bugün: 5 Mart 2026
+    const today = new Date().getDate(); 
 
-    // Veri setleri (Değiştirilmedi)
+
+    
     const dinnerData = {
         "1": { d: "Pazar", c: "Yayla Çorbası", a: "Kuru Fasulye Yemeği", s: "Sebze Sote", y: "Pirinç Pilavı", e: "Su, Çeyrek Ekmek", k: "1250-1280" },
         "2": { d: "Pazartesi", c: "Domates Çorbası", a: "Izgara Köfte", s: "Karışık Dolma (Yoğurt ile)", y: "Erişte", e: "Biber Tarator, Su", k: "1090-1135" },
@@ -326,4 +327,5 @@
 
 </body>
 </html>
+
 
