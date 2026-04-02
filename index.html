@@ -173,7 +173,7 @@
 
 <script>
     let currentMode = 'dinner';
-    const today = 2; // Bugün: 2 Nisan 2026
+    const today = new Date().getDate();
 
     // Nisan 2026 Akşam Yemeği Verileri
     const dinnerData = {
@@ -209,38 +209,38 @@
         "30": { d: "Perşembe", c: "Yüksük / Sebze Çorbası", a: "Belen Tava", s: "Nohut Yemeği", y: "Mısırlı Pirinç Pilavı", e: "Damla Sakızlı Muhallebi, Su", k: "1030-1315" }
     };
 
-    // Nisan 2026 Kahvaltı Verileri (Standart menüler)
+    // Nisan 2026 Kahvaltı Verileri
     const breakfastData = {
-        "1": { d: "Çarşamba", c: "Domates Çorbası", a: "Haşlanmış Yumurta", s: "Milföy Börek", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ", k: "1050" },
-        "2": { d: "Perşembe", c: "Tarhana Çorbası", a: "Sade Omlet", s: "Poğaça Çeşitleri", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Çikolata, Çay", k: "1050" },
-        "3": { d: "Cuma", c: "Yayla Çorbası", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Helva, Çay", k: "885" },
-        "4": { d: "Cumartesi", c: "Şehriye Çorbası", a: "Sucuklu Yumurta", s: "Simit", y: "Kaşar Peyniri", e: "Zeytin, Söğüş, Çay", k: "1090" },
-        "5": { d: "Pazar", c: "Mercimek Çorbası", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel, Çay", k: "960" },
-        "6": { d: "Pazartesi", c: "Ezogelin Çorbası", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Reçel, Çay", k: "835" },
-        "7": { d: "Salı", c: "Yayla Çorbası", a: "Peynirli Omlet", s: "Açma Çeşitleri", y: "Kaşar Peyniri", e: "Zeytin, Söğüş, Çay", k: "825" },
-        "8": { d: "Çarşamba", c: "Domates Çorbası", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Söğüş, Çay", k: "980" },
-        "9": { d: "Perşembe", c: "Mercimek Çorbası", a: "Peynirli Börek", s: "Haşlanmış Yumurta", y: "Tulum Peyniri", e: "Zeytin, Söğüş, Çay", k: "935" },
-        "10": { d: "Cuma", c: "Tarhana Çorbası", a: "Sucuklu Yumurta", s: "Poğaça", y: "Beyaz Peynir", e: "Zeytin, Reçel, Çay", k: "1120" },
-        "11": { d: "Cumartesi", c: "Ezogelin Çorbası", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Kaşar Peyniri", e: "Zeytin, Tahin-Pekmez", k: "995" },
-        "12": { d: "Pazar", c: "Şehriye Çorbası", a: "Menemen", s: "Simit", y: "Beyaz Peynir", e: "Zeytin, Elma, Çay", k: "1015" },
-        "13": { d: "Pazartesi", c: "Yayla Çorbası", a: "Kaşarlı Omlet", s: "Açma Çeşitleri", y: "Tulum Peyniri", e: "Zeytin, Bal+Tereyağ", k: "1195" },
-        "14": { d: "Salı", c: "Mercimek Çorbası", a: "Peynirli Omlet", s: "Milföy Börek", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Söğüş, Çay", k: "950" },
-        "15": { d: "Çarşamba", c: "Sebze Çorbası", a: "Peynirli Yumurta", s: "Simit", y: "Kaşar Peyniri", e: "Zeytin, Çikolata, Çay", k: "1145" },
-        "16": { d: "Perşembe", c: "Sebze Çorbası", a: "Sade Omlet", s: "Poğaça Çeşitleri", y: "Kaşar Peyniri", e: "Zeytin, Söğüş, Çay", k: "975" },
-        "17": { d: "Cuma", c: "Yayla Çorbası", a: "Açma Çeşitleri", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ", k: "855" },
-        "18": { d: "Cumartesi", c: "Ezogelin Çorbası", a: "Peynirli Yumurta", s: "Simit", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Tahin-Pekmez", k: "915" },
-        "19": { d: "Pazar", c: "Şehriye Çorbası", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Çikolata, Çay", k: "795" },
-        "20": { d: "Pazartesi", c: "Tarhana Çorbası", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Kaşar Peyniri", e: "Zeytin, Çikolata, Çay", k: "905" },
-        "21": { d: "Salı", c: "Ezogelin Çorbası", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel, Çay", k: "960" },
-        "22": { d: "Çarşamba", c: "Domates Çorbası", a: "Kaşarlı Omlet", s: "Poğaça Çeşitleri", y: "Krem Peynir", e: "Zeytin, Çikolata, Çay", k: "875" },
-        "23": { d: "Perşembe", c: "Mercimek Çorbası", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Söğüş, Çay", k: "610" },
-        "24": { d: "Cuma", c: "Yayla Çorbası", a: "Peynirli Omlet", s: "Simit", y: "Kaşar Peyniri", e: "Zeytin, Tahin-Pekmez", k: "925" },
-        "25": { d: "Cumartesi", c: "Şehriye Çorbası", a: "Sosisli Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Portakal, Çay", k: "765" },
-        "26": { d: "Pazar", c: "Tarhana Çorbası", a: "Sade Omlet", s: "Mozaik Kek", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Bal+Tereyağ", k: "780" },
-        "27": { d: "Pazartesi", c: "Ezogelin Çorbası", a: "Peynirli Börek", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Çikolata, Çay", k: "810" },
-        "28": { d: "Salı", c: "Mercimek Çorbası", a: "Sucuklu Yumurta", s: "Poğaça Çeşitleri", y: "Labne Peyniri", e: "Zeytin, Söğüş, Çay", k: "790" },
-        "29": { d: "Çarşamba", c: "Domates Çorbası", a: "Haşlanmış Yumurta", s: "Milföy Börek", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ", k: "1050" },
-        "30": { d: "Perşembe", c: "Tarhana Çorbası", a: "Sade Omlet", s: "Poğaça Çeşitleri", y: "Tulum/Kaşar Peyniri", e: "Zeytin, Çikolata, Çay", k: "1050" }
+        "1": { d: "Çarşamba", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "901" },
+        "2": { d: "Perşembe", a: "Kaşarlı Omlet", s: "Simit", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "843" },
+        "3": { d: "Cuma", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Tahinli Pekmez, Çay", k: "783" },
+        "4": { d: "Cumartesi", a: "Peynirli Omlet", s: "Milföy Börek", y: "Kaşar Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "811" },
+        "5": { d: "Pazar", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "745" },
+        "6": { d: "Pazartesi", a: "Peynirli Omlet", s: "Poğaça Çeşitleri", y: "Krem Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "790" },
+        "7": { d: "Salı", a: "Börek Çeşitleri", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "893" },
+        "8": { d: "Çarşamba", a: "Sade Omlet", s: "Mozaik Kek", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "720" },
+        "9": { d: "Perşembe", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "832" },
+        "10": { d: "Cuma", a: "Menemen", s: "Simit", y: "Kaşar Peynir", e: "Zeytin, Muz, Çay", k: "856" },
+        "11": { d: "Cumartesi", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "710" },
+        "12": { d: "Pazar", a: "Sucuklu Yumurta", s: "Poğaça Çeşitleri", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Bal+Tereyağ, Çay", k: "1025" },
+        "13": { d: "Pazartesi", a: "Patates Kavurması / Patates Salatası", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "703" },
+        "14": { d: "Salı", a: "Kaşarlı Omlet", s: "Açma Çeşitleri", y: "Labne Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "848" },
+        "15": { d: "Çarşamba", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "830" },
+        "16": { d: "Perşembe", a: "Sade Omlet / Salçalı Yumurta", s: "Milföy Börek", y: "Kaşar Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "821" },
+        "17": { d: "Cuma", a: "Börek Çeşitleri", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Reçel Çeşitleri, Çay", k: "700" },
+        "18": { d: "Cumartesi", a: "Peynirli Omlet", s: "Patates Haşlama", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "645" },
+        "19": { d: "Pazar", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "936" },
+        "20": { d: "Pazartesi", a: "Menemen", s: "Simit", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "823" },
+        "21": { d: "Salı", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Muz, Çay", k: "767" },
+        "22": { d: "Çarşamba", a: "Sade Omlet", s: "Poğaça Çeşitleri", y: "Kaşar Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "776" },
+        "23": { d: "Perşembe", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "880" },
+        "24": { d: "Cuma", a: "Kaşarlı Omlet", s: "Kek Çeşitleri", y: "Krem Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "748" },
+        "25": { d: "Cumartesi", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "745" },
+        "26": { d: "Pazar", a: "Peynirli Omlet", s: "Açma Çeşitleri", y: "Kaşar Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "861" },
+        "27": { d: "Pazartesi", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "893" },
+        "28": { d: "Salı", a: "Sucuklu Yumurta", s: "Poğaça Çeşitleri", y: "Labne Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "840" },
+        "29": { d: "Çarşamba", a: "Patates Kavurması / Patates Salatası", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "735" },
+        "30": { d: "Perşembe", a: "Sade Omlet", s: "Simit", y: "Beyaz Peynir", e: "Zeytin, Helva, Çay", k: "842" }
     };
 
     function build(mode) {
@@ -284,7 +284,6 @@
             <div class="detail-item"><div class="icon-circle">🍚</div><div class="detail-text"><label>Yardımcı</label><span>${d.y}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🍎</div><div class="detail-text"><label>Ek</label><span>${d.e}</span></div></div>
         ` : `
-            <div class="detail-item"><div class="icon-circle">🥣</div><div class="detail-text"><label>Çorba</label><span>${d.c}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🍳</div><div class="detail-text"><label>Sıcak Kahvaltı</label><span>${d.a}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🥐</div><div class="detail-text"><label>Hamur İşi / Yan</label><span>${d.s}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🧀</div><div class="detail-text"><label>Peynir</label><span>${d.y}</span></div></div>
