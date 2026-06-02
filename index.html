@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mayıs 2026 Yemek Rehberi | GSB Manisa</title>
+    <title>Haziran 2026 Yemek Rehberi | GSB Manisa</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230f172a'/%3E%3Cpath d='M30 45 L50 65 L75 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M25 70 C35 80, 65 80, 75 70' stroke='%23f59e0b' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
     <style>
@@ -144,7 +144,7 @@
 
 <header>
     <h1>made by Arda Utancak</h1>
-    <h2>Mayıs 2026 Yemek Rehberi</h2>
+    <h2>Haziran 2026 Yemek Rehberi</h2>
     <div class="menu-tabs">
         <button class="tab-btn active" onclick="switchMenu('dinner', event)">Akşam Yemeği</button>
         <button class="tab-btn" onclick="switchMenu('breakfast', event)">Kahvaltı</button>
@@ -163,7 +163,7 @@
         <button class="close-modal" onclick="closeModal()">×</button>
         <div class="modal-header">
             <h3 id="m-date">01</h3>
-            <p id="m-day">Cuma</p>
+            <p id="m-day">Pazartesi</p>
         </div>
         
         <div id="modal-details" class="meal-detail-grid"></div>
@@ -175,74 +175,72 @@
     let currentMode = 'dinner';
     const today = new Date().getDate();
 
-    // Mayıs 2026 Akşam Yemeği Verileri
+    // Haziran 2026 Akşam Yemeği Verileri
     const dinnerData = {
-        "1": { d: "Cuma", c: "Salçalı Mercimek / Yayla Çorbası", a: "Kemiksiz İncik Külbastı", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna (Sos İle)", e: "Karışık Salata, Su", k: "900-1120" },
-        "2": { d: "Cumartesi", c: "Tarhana / Düğün Çorbası", a: "Kurufasulye Yemeği", s: "İmambayıldı", y: "Şehriyeli Pirinç Pilavı", e: "Cevizli Kadayıf, Su", k: "1055-1135" },
-        "3": { d: "Pazar", c: "Domates / Sebze Çorbası", a: "Çıtır Tavuk Burger", s: "Sebze Sote", y: "Makarna (Sos İle)", e: "Ayran, Su", k: "770-1245" },
-        "4": { d: "Pazartesi", c: "Ezogelin / Toyga Çorbası", a: "Tas Kebabı", s: "Mücver", y: "Bulgur Pilavı", e: "Haydari, Su", k: "960-1125" },
-        "5": { d: "Salı", c: "Salçalı Mercimek / Yoğurt Çorbası", a: "Sebzeli Fırın Tavuk", s: "Taze Fasulye", y: "Pirinç Pilavı", e: "Bisküvili Muhallebi, Su", k: "1000-1220" },
-        "6": { d: "Çarşamba", c: "Tarhana / Yayla Çorbası", a: "Manisa Kebabı (Pide+Domates+Sumaklı Soğan)", s: "Karışık Kızartma (Yoğurt / Sos İle)", y: "Sebzeli Bulgur Pilavı", e: "Havuç Tarator, Su", k: "1020-1090" },
-        "7": { d: "Perşembe", c: "Ezogelin / Sebze Çorbası", a: "Tavuk Fajita", s: "Karışık Sarma (Yoğurt İle)", y: "Fırın Makarna", e: "Cacık, Su", k: "930-1080" },
-        "8": { d: "Cuma", c: "Tavuksuyu / Mahluta Çorbası", a: "Nohut Yemeği", s: "Patates Yemeği", y: "Bulgur Pilavı", e: "Peynir Tatlısı / Turşu, Su", k: "1170-1375" },
-        "9": { d: "Cumartesi", c: "Tarhana / Yayla Çorbası", a: "Tavuk Sote", s: "Karışık Kızartma (Yoğurt İle)", y: "Pirinç Pilavı", e: "Kaşık Salata, Su", k: "970-1015" },
-        "10": { d: "Pazar", c: "Mercimek / Yüksük Çorbası", a: "Et Tantuni", s: "Kurufasulye Yemeği", y: "Makarna (Sos / Yoğurt İle)", e: "Ayran, Su", k: "945-1245" },
-        "11": { d: "Pazartesi", c: "Ezogelin / Toyga Çorbası", a: "Soslu Mitite Köfte", s: "Çıtır Karnabahar (Yoğurt İle)", y: "Pirinç Pilavı", e: "Mozaik Pasta, Su", k: "1325-1350" },
-        "12": { d: "Salı", c: "Salçalı Şehriye / Mercimek Çorbası", a: "Tavuk Çökertme", s: "Mücver (Yoğurt İle)", y: "Makarna (Sos / Yoğurt İle)", e: "Havuç-Aysberg Salata, Su", k: "895-1155" },
-        "13": { d: "Çarşamba", c: "Domates / Yayla Çorbası", a: "Çoban Kavurma", s: "Kurufasulye Yemeği", y: "Bulgur Pilavı", e: "Biber Tarator, Su", k: "910-1190" },
-        "14": { d: "Perşembe", c: "Tarhana / Yoğurt Çorbası", a: "El Yapımı Tavuk Şinitzel", s: "Patates Graten", y: "Pirinç Pilavı", e: "Ayran, Su", k: "880-1140" },
-        "15": { d: "Cuma", c: "Domates / Erişteli Mercimek Çorbası", a: "Beğendili Izgara Köfte", s: "Sebze Sote", y: "Sebzeli Bulgur Pilavı", e: "Supangle, Su", k: "1240-1450" },
-        "16": { d: "Cumartesi", c: "Ezogelin / Şehriye Çorbası", a: "Beşamel Soslu Tavuk", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna (Sos / Yoğurt İle)", e: "Çilek, Su", k: "975-1105" },
-        "17": { d: "Pazar", c: "Tavuksuyu / Tarhana Çorbası", a: "Nohut Yemeği", s: "Karışık Kızartma (Yoğurt / Sos İle)", y: "Pirinç Pilavı", e: "Haşhaşlı Revani, Su", k: "1190-1355" },
-        "18": { d: "Pazartesi", c: "Mercimek / Yüksük Çorbası", a: "Tavuklu Sultan Kebabı", s: "Patates Yemeği", y: "Sebzeli Bulgur Pilavı", e: "Biber Tarator, Su", k: "875-1115" },
-        "19": { d: "Salı", c: "Domates / Toyga Çorbası", a: "Et Çökertme", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna (Sos İle)", e: "Çikolatalı Yaş Pasta, Su", k: "1465-1635" },
-        "20": { d: "Çarşamba", c: "Ezogelin / Düğün Çorbası", a: "Tavuk Tantuni", s: "Karışık Sebze Graten", y: "Mısırlı Pirinç Pilavı", e: "Ege Salata, Su", k: "890-1090" },
-        "21": { d: "Perşembe", c: "Yayla / Mahluta Çorbası", a: "Et Hamburger", s: "Sebze Kızartma (Yoğurt İle)", y: "Makarna (Sos İle)", e: "Ayran, Su", k: "990-1095" },
-        "22": { d: "Cuma", c: "Tavuksuyu / Tarhana Çorbası", a: "Kurufasulye Yemeği", s: "Mücver", y: "Pirinç Pilavı", e: "Akdeniz Salata / Yoğurt, Su", k: "955-1140" },
-        "23": { d: "Cumartesi", c: "Toyga / Ezogelin Çorbası", a: "Tavuk Kavurma", s: "Karışık Dolma (Yoğurt İle)", y: "Spagetti (Sos İle)", e: "Trileçe, Su", k: "1315-1350" },
-        "24": { d: "Pazar", c: "Domates / Yoğurt Çorbası", a: "İzmir Köfte", s: "Barbunya Yemeği", y: "Şehriyeli Bulgur Pilavı", e: "Cacık, Su", k: "815-1135" },
-        "25": { d: "Pazartesi", c: "Mercimek / Yüksük Çorbası", a: "Şiş Köfte", s: "Taze Fasulye", y: "Pirinç Pilavı", e: "Ayran, Su", k: "875-1115" },
-        "26": { d: "Salı", c: "Tarhana / Şehriye Çorbası", a: "Tavuklu Paçanga Böreği", s: "Fellah Köfte (Yoğurt İle)", y: "Makarna (Sos İle)", e: "Haydari, Su", k: "930-1180" },
-        "27": { d: "Çarşamba", c: "Ezogelin / Sebze Çorbası", a: "Et Kavurma", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Cevizli Baklava, Su", k: "1275-1465" },
-        "28": { d: "Perşembe", c: "Toyga / Domates Çorbası", a: "Tavuk Tantuni", s: "İmambayıldı", y: "Bulgur Pilavı", e: "Karışık Salata, Su", k: "985-1140" },
-        "29": { d: "Cuma", c: "Yayla / Tarhana Çorbası", a: "Hünkar Beğendi", s: "Karışık Sarma (Yoğurt İle)", y: "Erişte", e: "Kemalpaşa Tatlısı, Su", k: "1080-1255" },
-        "30": { d: "Cumartesi", c: "Çeşminigar / Yüksük Çorbası", a: "Kemiksiz İncik Külbastı", s: "Karışık Sebze Kızartma (Yoğurt İle)", y: "Domatesli Bulgur Pilavı", e: "Muz, Su", k: "950-1155" },
-        "31": { d: "Pazar", c: "Düğün / Ezogelin Çorbası", a: "Kurufasulye Yemeği", s: "Mücver (Yoğurt İle)", y: "Pirinç Pilavı", e: "Damla Sakızlı Muhallebi, Su", k: "935-1035" }
+        "1": { d: "Pazartesi", c: "Salçalı Mercimek / Yayla Çorbası", a: "Kemikli Tavuk Pirzola (Domates+Biber İle)", s: "Karışık Dolma", y: "Makarna Çeşidi", e: "Cacık, Su", k: "1050-1145" },
+        "2": { d: "Salı", c: "Tarhana / Şehriye Çorbası", a: "Manisa Kebabı / El Yapımı Tavuk Şinitzel", s: "Patates Yemeği", y: "Sebzeli Bulgur Pilavı", e: "Ege Salata, Su", k: "930-1080" },
+        "3": { d: "Çarşamba", c: "Domates / Yoğurt Çorbası", a: "Et Tantuni / Tavuk Tantuni", s: "Kurufasulye Yemeği", y: "Pirinç Pilavı", e: "Meyveli Pasta, Su", k: "1180-1395" },
+        "4": { d: "Perşembe", c: "Ezogelin / Sebze Çorbası", a: "Tavuklu Sultan Kebabı", s: "Karışık Sebze Kızartma (Yoğurt İle)", y: "Makarna Çeşidi", e: "Havuç Tarator, Su", k: "980-1225" },
+        "5": { d: "Cuma", c: "Tavuksuyu / Tarhana Çorbası", a: "Nohut Yemeği", s: "Mücver", y: "Pirinç Pilavı", e: "Akdeniz Salata / Yoğurt, Su", k: "1000-1235" },
+        "6": { d: "Cumartesi", c: "Salçalı Şehriye / Mercimek Çorbası", a: "Tas Kebabı / Beşamel Soslu Tavuk", s: "İmambayıldı", y: "Bulgur Pilavı", e: "Haydari, Su", k: "970-1135" },
+        "7": { d: "Pazar", c: "Domates / Yüksük Çorbası", a: "Tavuk Tantuni", s: "Taze Fasulye", y: "Pirinç Pilavı", e: "Kemalpaşa Tatlısı, Su", k: "1100-1215" },
+        "8": { d: "Pazartesi", c: "Yayla / Mahluta Çorbası", a: "Soslu Mitite Köfte / Kemiksiz Tavuk İncik Külbastı", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna Çeşidi", e: "Erik, Su", k: "985-1050" },
+        "9": { d: "Salı", c: "Ezogelin / Toyga Çorbası", a: "El Yapımı Tavuk Şinitzel", s: "Çıtır Karnabahar / Mücver (Yoğurt İle)", y: "Pirinç Pilavı", e: "Kaşık Salata, Su", k: "1060-1190" },
+        "10": { d: "Çarşamba", c: "Tarhana / Tavuksuyu Çorbası", a: "Ekmek Arası Köfte / Ekmek Arası Tavuk Kavurma", s: "Patates Graten", y: "Bulgur Pilavı", e: "Ayran, Su", k: "935-1230" },
+        "11": { d: "Perşembe", c: "Salçalı Mercimek / Yoğurt Çorbası", a: "Kemiksiz İncik Külbastı", s: "Karışık Kızartma (Yoğurt İle)", y: "Makarna Çeşidi", e: "Supangle, Su", k: "1210-1285" },
+        "12": { d: "Cuma", c: "Domates / Çeşminigar Çorbası", a: "Et Çökertme / Tavuk Çökertme", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Karışık Salata, Su", k: "1040-1120" },
+        "13": { d: "Cumartesi", c: "Ezogelin / Sebze Çorbası", a: "Çıtır Tavuk Burger / Çıtır Tavuk", s: "Fellah Köfte (Yoğurt İle)", y: "Fırın Makarna", e: "Ayran, Su", k: "895-1210" },
+        "14": { d: "Pazar", c: "Tarhana / Düğün Çorbası", a: "Kurufasulye Yemeği", s: "Mücver (Yoğurt İle)", y: "Şehriyeli Pirinç Pilavı", e: "Cevizli Baklava, Su", k: "1165-1215" },
+        "15": { d: "Pazartesi", c: "Salçalı Mercimek / Mısır Çorbası", a: "Köz Patlıcan Kebabı / Tavuk Kavurma", s: "Sebze Sote", y: "Bulgur Pilavı", e: "Cacık, Su", k: "815-1055" },
+        "16": { d: "Salı", c: "Yayla / Yüksük Çorbası", a: "Beşamel Soslu Tavuk", s: "Kuru Fasulye Yemeği", y: "Pirinç Pilavı", e: "Meyve, Su", k: "1165-1420" },
+        "17": { d: "Çarşamba", c: "Domates / Şehriye Çorbası", a: "Et Hamburger / Çıtır Tavuk Burger", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna Çeşidi", e: "Ayran, Su", k: "1030-1140" },
+        "18": { d: "Perşembe", c: "Ezogelin / Toyga Çorbası", a: "Tavuk Fajita", s: "Karışık Sebze Graten", y: "Sebzeli Bulgur Pilavı", e: "Biber Tarator, Su", k: "905-1005" },
+        "19": { d: "Cuma", c: "Tavuksuyu / Tarhana Çorbası", a: "Nohut Yemeği", s: "İmambayıldı", y: "Şehriyeli Pirinç Pilavı", e: "Yoğurt / Peynir Tatlısı, Su", k: "1120-1325" },
+        "20": { d: "Cumartesi", c: "Mercimek / Yüksük Çorbası", a: "Köri Soslu Tavuk", s: "Taze Fasulye Yemeği", y: "Makarna Çeşidi", e: "Ege Salata, Su", k: "950-1215" },
+        "21": { d: "Pazar", c: "Domates / Yoğurt Çorbası", a: "Hünkar Beğendi / Kemikli Tavuk İncik", s: "Sebze Kızartma (Yoğurt İle)", y: "Bulgur Pilavı", e: "Kuru Cacık, Su", k: "1040-1180" },
+        "22": { d: "Pazartesi", c: "Ezogelin / Yayla Çorbası", a: "Sebzeli Fırın Tavuk", s: "Kuru Fasulye Yemeği", y: "Pirinç Pilavı", e: "Damla Sakızlı Muhallebi / Supangle, Su", k: "935-1175" },
+        "23": { d: "Salı", c: "Tarhana / Şehriye Çorbası", a: "Ekmek Arası Köfte / Ekmek Arası Tavuk Kavurma", s: "Soslu Yaz Kızartması (Yoğurt İle)", y: "Yeşil Mercimekli Bulgur Pilavı", e: "Ayran, Su", k: "985-1090" },
+        "24": { d: "Çarşamba", c: "Düğün / Yüksük Çorbası", a: "Tavuk Tantuni", s: "Biber Dolması (Yoğurt İle)", y: "Makarna Çeşidi", e: "Karpuz, Su", k: "1015-1255" },
+        "25": { d: "Perşembe", c: "Tavuksuyu / Domates Çorbası", a: "Kuru Fasulye Yemeği", s: "Bezelye Yemeği", y: "Şehriyeli Pirinç Pilavı", e: "Cacık / Turşu, Su", k: "915-1015" },
+        "26": { d: "Cuma", c: "Mercimek / Tarhana Çorbası", a: "Karnıyarık", s: "Mücver (Yoğurt İle)", y: "Bulgur Pilavı", e: "Haydari, Su", k: "825-1030" },
+        "27": { d: "Cumartesi", c: "Sebze / Ezogelin Çorbası", a: "Tavuk Sote", s: "Karışık Sebze Graten", y: "Makarna Çeşidi", e: "Kaşık Salata, Su", k: "985-1050" },
+        "28": { d: "Pazar", c: "Yayla / Düğün Çorbası", a: "Çoban Kavurma / Tavuk Kavurma", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Revani, Su", k: "1215-1465" },
+        "29": { d: "Pazartesi", c: "Domates / Şehriye Çorbası", a: "Çıtır Tavuk Burger", s: "Taze Fasulye", y: "Makarna Çeşidi", e: "Akdeniz Salata, Su", k: "925-1300" },
+        "30": { d: "Salı", c: "Ezogelin / Çeşminigar Çorbası", a: "Kuru Fasulye Yemeği", s: "Sebze Sote", y: "Şehriyeli Pirinç Pilavı", e: "Çikolatalı Yaş Pasta, Su", k: "1135-1260" }
     };
 
-    // Mayıs 2026 Kahvaltı Verileri
+    // Haziran 2026 Kahvaltı Verileri
     const breakfastData = {
-        "1": { d: "Cuma", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "780" },
-        "2": { d: "Cumartesi", a: "Kaşarlı Omlet", s: "Zeytinli/Peynirli Açma", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "740" },
-        "3": { d: "Pazar", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Tahinli Pekmez, Çay", k: "900" },
-        "4": { d: "Pazartesi", a: "Peynirli Omlet", s: "-", y: "Krem Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "790" },
-        "5": { d: "Salı", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "745" },
-        "6": { d: "Çarşamba", a: "Sade Omlet", s: "Çikolatalı/Peynirli Milföy Börek", y: "Kaşar Peynir", e: "Zeytin, Çilek, Çay", k: "830" },
-        "7": { d: "Perşembe", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "870" },
-        "8": { d: "Cuma", a: "Sucuklu Yumurta", s: "Simit", y: "Kaşar Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "1035" },
-        "9": { d: "Cumartesi", a: "Patates Kızartması", s: "Menemen", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "940" },
-        "10": { d: "Pazar", a: "Kaşarlı Omlet", s: "Peynirli/Dereotlu Poğaça", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "850" },
-        "11": { d: "Pazartesi", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "730" },
-        "12": { d: "Salı", a: "Sade Omlet", s: "Zeytinli/Peynirli Açma", y: "Labne Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "820" },
-        "13": { d: "Çarşamba", a: "Pişi", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "830" },
-        "14": { d: "Perşembe", a: "Peynirli Omlet", s: "Çikolatalı/Peynirli Milföy Börek", y: "Kaşar Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "820" },
-        "15": { d: "Cuma", a: "Börek Çeşitleri", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Helva, Çay", k: "780" },
-        "16": { d: "Cumartesi", a: "Menemen", s: "Simit", y: "Beyaz Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "845" },
-        "17": { d: "Pazar", a: "Sosisli Patates Kızartması", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "995" },
-        "18": { d: "Pazartesi", a: "Kaşarlı Omlet", s: "Peynirli/Dereotlu Poğaça", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "905" },
-        "19": { d: "Salı", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Krem Peynir", e: "Zeytin, Muz, Çay", k: "835" },
-        "20": { d: "Çarşamba", a: "Sucuklu Yumurta", s: "Zeytinli/Peynirli Açma", y: "Kaşar Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "890" },
-        "21": { d: "Perşembe", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "730" },
-        "22": { d: "Cuma", a: "Sade Omlet", s: "Çikolatalı/Peynirli Milföy Börek", y: "Kaşar Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "760" },
-        "23": { d: "Cumartesi", a: "Sosis Kokteyl", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "745" },
-        "24": { d: "Pazar", a: "Peynirli Omlet", s: "Peynirli/Dereotlu Poğaça", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "850" },
-        "25": { d: "Pazartesi", a: "Patates Kızartması", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Reçel Çeşitleri, Çay", k: "880" },
-        "26": { d: "Salı", a: "Menemen", s: "Simit", y: "Kaşar Peynir", e: "Zeytin, Sürülebilir Çikolata, Çay", k: "865" },
-        "27": { d: "Çarşamba", a: "Karışık Pizza/Simit/Poğaça", s: "Patates Kızartması", y: "Yumurta Çeşitleri", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "700" },
-        "28": { d: "Perşembe", a: "Kaşarlı Omlet", s: "Haşlanmış Patates", y: "Tulum / Kaşar Peyniri", e: "Zeytin, Helva, Çay", k: "740" },
-        "29": { d: "Cuma", a: "Sosisli Patates Kızartması", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Bal+Tereyağ, Çay", k: "875" },
-        "30": { d: "Cumartesi", a: "Sade Omlet", s: "Zeytinli/Peynirli Açma", y: "Kaşar Peynir", e: "Zeytin, Mevsim Sebzeleri Söğüş, Çay", k: "775" },
-        "31": { d: "Pazar", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Zeytin, Tahinli Pekmez, Çay", k: "745" }
+        "1": { d: "Pazartesi", a: "Sucuklu Yumurta", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Tulum / Kaşar Peyniri", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "880" },
+        "2": { d: "Salı", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Çilek, Çay", k: "920" },
+        "3": { d: "Çarşamba", a: "Peynirli Omlet", s: "Çikolatalı/Peynirli Milföy Börek", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "760" },
+        "4": { d: "Perşembe", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Krem Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "780" },
+        "5": { d: "Cuma", a: "Menemen", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "825" },
+        "6": { d: "Cumartesi", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "815" },
+        "7": { d: "Pazar", a: "Sade Omlet", s: "Peynirli/Ispanaklı Börek", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "770" },
+        "8": { d: "Pazartesi", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "850" },
+        "9": { d: "Salı", a: "Kaşarlı Omlet", s: "Simit", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "830" },
+        "10": { d: "Çarşamba", a: "Pişi", s: "Haşlanmış Yumurta", y: "Tulum / Kaşar Peyniri", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "750" },
+        "11": { d: "Perşembe", a: "Sade Omlet", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "900" },
+        "12": { d: "Cuma", a: "Patates Kızartması / Fırın Patates", s: "Menemen", y: "Labne Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "880" },
+        "13": { d: "Cumartesi", a: "Sucuklu Yumurta", s: "Zeytinli/Peynirli/Sade Açma", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "890" },
+        "14": { d: "Pazar", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "845" },
+        "15": { d: "Pazartesi", a: "Peynirli Omlet", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "860" },
+        "16": { d: "Salı", a: "Sosisli Patates Kızartması", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "880" },
+        "17": { d: "Çarşamba", a: "Sade Omlet", s: "Simit", y: "Tulum / Kaşar Peyniri", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "755" },
+        "18": { d: "Perşembe", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Erik, Çay", k: "775" },
+        "19": { d: "Cuma", a: "Menemen", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "905" },
+        "20": { d: "Cumartesi", a: "Karışık Kızartma", s: "Haşlanmış Yumurta", y: "Krem Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "690" },
+        "21": { d: "Pazar", a: "Kaşarlı Omlet", s: "Haşlanmış Patates", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "715" },
+        "22": { d: "Pazartesi", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "900" },
+        "23": { d: "Salı", a: "Sucuklu Yumurta", s: "Çikolatalı/Peynirli Milföy Börek", y: "Labne Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "890" },
+        "24": { d: "Çarşamba", a: "Karışık Pizza", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "840" },
+        "25": { d: "Perşembe", a: "Sade Omlet", s: "Zeytinli/Peynirli/Sade Açma", y: "Tulum / Kaşar Peyniri", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "910" },
+        "26": { d: "Cuma", a: "Sosis Kokteyl (Salçalı veya Kızartma)", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "800" },
+        "27": { d: "Cumartesi", a: "Peynirli Omlet", s: "Peynirli/Dereotlu/Sade Poğaça", y: "Kaşar Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "940" },
+        "28": { d: "Pazar", a: "Patates Kızartması / Fırın Patates", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Mevsim Yeşillikleri, Çay", k: "830" },
+        "29": { d: "Pazartesi", a: "Menemen", s: "Simit", y: "Tulum / Kaşar Peyniri", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "885" },
+        "30": { d: "Salı", a: "Patates Kavurması veya Patates Salatası", s: "Haşlanmış Yumurta", y: "Beyaz Peynir", e: "Siyah/Yeşil Zeytin, Reçel/Pekmez/Bal Çeşitleri, Çay", k: "855" }
     };
 
     function build(mode) {
@@ -250,15 +248,15 @@
         calendar.innerHTML = '';
         const dataSet = mode === 'dinner' ? dinnerData : breakfastData;
 
-        // Mayıs 2026 Cuma günü başlıyor (Pzt, Salı, Çar, Per boş geçilecek = 4 slot)
-        for(let i=0; i<4; i++) {
+        // Haziran 2026 Pazartesi günü başlıyor (Boş slot yok)
+        for(let i=0; i<0; i++) {
             const div = document.createElement('div');
             div.className = 'day-card empty-slot';
             calendar.appendChild(div);
         }
 
-        // Mayıs ayı 31 gün
-        for(let day=1; day<=31; day++) {
+        // Haziran ayı 30 gün
+        for(let day=1; day<=30; day++) {
             const data = dataSet[day];
             const card = document.createElement('div');
             card.className = `day-card ${day === today ? 'is-today' : ''}`;
@@ -276,7 +274,7 @@
         const d = mode === 'dinner' ? dinnerData[day] : breakfastData[day];
 
         document.getElementById('m-date').innerText = day < 10 ? '0' + day : day;
-        document.getElementById('m-day').innerText = d.d + " Mayıs 2026";
+        document.getElementById('m-day').innerText = d.d + " Haziran 2026";
 
         const details = document.getElementById('modal-details');
         details.innerHTML = mode === 'dinner' ? `
