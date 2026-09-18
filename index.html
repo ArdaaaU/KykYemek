@@ -170,12 +170,15 @@
         <div id="m-kcal" class="kcal-tag">0 kkal</div>
     </div>
 </div>
-
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/<unique-path>/script.js"></script>
 <script>
     let currentMode = 'dinner';
     const today = new Date().getDate();
     const currentMonth = new Date().getMonth(); // 8 = Eylül
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    
 
     // Eylül 2026 Akşam Yemeği Verileri
     const dinnerData = {
