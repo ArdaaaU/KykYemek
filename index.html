@@ -1060,31 +1060,66 @@
         }
 
         if (Notification.permission === 'granted') {
-            showToast('Menü bildirimleri zaten aktif! 🔔', '✅');
+            showToast('Bildirimler zaten aktif! (09:00 & 16:00) 🔔', '✅');
             sendTestNotification();
             return;
         }
 
         Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
-                showToast('Bildirimler aktif! Her gün menü cebinizde 🍽️', '🔔');
+                showToast('Bildirimler aktif! Sabah 09:00 ve Akşam 16:00\'da menü cebinizde 🍽️', '🔔');
                 sendTestNotification();
+                scheduleDailyNotifications();
             } else {
                 showToast('Bildirim izni reddedildi.', '❌');
             }
         });
     }
 
-    function sendTestNotification() {
+    function sendTestNotification(customTitle, customBody) {
         if (Notification.permission === 'granted') {
             const dataSet = currentMode === 'dinner' ? dinnerData : breakfastData;
             const todayItem = dataSet[activeToday] ? dataSet[activeToday].a : 'Günün Menüsü';
-            new Notification('KYK Yemek Rehberi', {
-                body: `Bugünkü Menü: ${todayItem} 🍽️`,
+            new Notification(customTitle || 'KYK Yemek Rehberi', {
+                body: customBody || `Bugünkü Menü: ${todayItem} 🍽️ (Sabah 09:00 & Akşam 16:00)`,
                 icon: 'icon-192.png',
                 badge: 'icon-192.png'
             });
         }
+    }
+
+    // Sabah 09:00 ve Akşam 16:00 Bildirim Zamanlayıcısı
+    function scheduleDailyNotifications() {
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+        let notified9 = false;
+        let notified16 = false;
+
+        function checkAndNotify() {
+            const now = new Date();
+            const h = now.getHours();
+            const m = now.getMinutes();
+
+            // 09:00 Sabah Kahvaltı Bildirimi
+            if (h === 9 && m === 0 && !notified9) {
+                const item = breakfastData[activeToday] ? breakfastData[activeToday].a : 'Kahvaltı Menüsü';
+                sendTestNotification('☀️ Günaydın! KYK Kahvaltı Menüsü (09:00)', `Bugün: ${item} 🍳`);
+                notified9 = true;
+            } else if (h !== 9) {
+                notified9 = false;
+            }
+
+            // 16:00 Akşam Yemeği Bildirimi
+            if (h === 16 && m === 0 && !notified16) {
+                const item = dinnerData[activeToday] ? dinnerData[activeToday].a : 'Akşam Yemeği Menüsü';
+                sendTestNotification('🍽️ KYK Akşam Yemeği Menüsü (16:00)', `Bugün: ${item} 🍲`);
+                notified16 = true;
+            } else if (h !== 16) {
+                notified16 = false;
+            }
+        }
+
+        setInterval(checkAndNotify, 30000);
     }
 
     // ========================================================
@@ -1132,6 +1167,7 @@
         }
 
         build(currentMode);
+        scheduleDailyNotifications();
     })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
