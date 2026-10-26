@@ -1,163 +1,784 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ekim 2026 Yemek Rehberi | GSB Manisa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- PWA & SEO Meta Tags -->
+    <meta name="description" content="GSB Manisa KYK Yurdu Ekim 2026 yemek ve kahvaltı menüsü rehberi. Günün yemeği ve kalori bilgileri.">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230f172a'/%3E%3Cpath d='M30 45 L50 65 L75 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M25 70 C35 80, 65 80, 75 70' stroke='%23f59e0b' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.4);
+            --bg-body: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.94);
+            --card-border: #e2e8f0;
             --primary: #0f172a;
-            --accent: #2563eb; 
-            --accent-dinner: #dc2626; 
-            --text-main: #1e293b;
+            --accent: #2563eb;
+            --accent-dinner: #dc2626;
+            --accent-glow: rgba(37, 99, 235, 0.15);
+            --text-main: #0f172a;
             --text-muted: #64748b;
+            --text-sub: #475569;
             --today-glow: #f59e0b;
+            --modal-bg: #ffffff;
+            --surface-elevated: #f8fafc;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.12);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: linear-gradient(135deg, #090d16 0%, #111827 100%);
+            --header-bg: rgba(17, 24, 39, 0.88);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(30, 41, 59, 0.78);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #f8fafc;
+            --accent: #3b82f6;
+            --accent-dinner: #ef4444;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-sub: #cbd5e1;
+            --today-glow: #fbbf24;
+            --modal-bg: #1e293b;
+            --surface-elevated: #0f172a;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background: var(--bg-body);
             background-attachment: fixed;
             margin: 0;
             color: var(--text-main);
             -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        header {
-            padding: 40px 20px 20px;
-            text-align: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        header h1 { margin: 0; font-size: 0.8rem; letter-spacing: 3px; color: #64748b; font-weight: 700; text-transform: uppercase; }
-        header h2 { margin: 10px 0; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-
-        .menu-tabs {
+        /* Toast Message */
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: var(--modal-bg);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            pointer-events: none;
+        }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 20px 16px;
+            text-align: center;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 12px;
+            gap: 10px;
+        }
+
+        .brand-meta {
+            text-align: left;
+        }
+        .brand-meta h1 {
+            margin: 0;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .brand-author {
+            font-size: 0.72rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        header h2 {
+            margin: 4px 0 16px;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        /* Menu Tabs */
+        .menu-tabs {
+            display: inline-flex;
+            background: var(--surface-elevated);
+            padding: 4px;
+            border-radius: 50px;
+            border: 1px solid var(--card-border);
+            gap: 6px;
         }
 
         .tab-btn {
-            padding: 12px 20px;
+            padding: 10px 22px;
             border-radius: 50px;
-            border: 2px solid #e2e8f0;
-            background: white;
+            border: none;
+            background: transparent;
             cursor: pointer;
             font-weight: 700;
-            transition: all 0.3s;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             color: var(--text-muted);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .tab-btn.active {
             background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            color: var(--modal-bg);
+            box-shadow: var(--shadow-sm);
         }
 
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px 80px; }
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px 80px;
+        }
 
-        .calendar-nav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 15px; text-align: center; }
-        .calendar-nav div { font-weight: 700; color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
+        /* ========================================================
+           "BUGÜNÜN MENÜSÜ" HERO KARTI
+        ======================================================== */
+        .hero-today-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        .hero-today-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-today-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--today-glow), var(--accent));
+        }
+
+        .hero-badge-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245, 158, 11, 0.12);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        [data-theme="dark"] .hero-live-badge {
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            animation: pulseDot 1.8s infinite;
+        }
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .hero-meta-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-kcal-pill {
+            background: var(--surface-elevated);
+            color: var(--text-sub);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid var(--card-border);
+        }
+
+        .hero-hint-pill {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hero-main-title {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 8px;
+            line-height: 1.25;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .hero-item-box {
+            background: var(--surface-elevated);
+            border: 1px solid var(--card-border);
+            padding: 12px 14px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .hero-item-box .h-icon {
+            font-size: 1.3rem;
+            width: 36px;
+            height: 36px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .hero-item-box .h-text label {
+            display: block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .hero-item-box .h-text span {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        /* Calendar Area */
+        .calendar-section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .calendar-section-title h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .calendar-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .calendar-nav div {
+            font-weight: 800;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
 
         .day-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 18px;
-            min-height: 100px;
-            padding: 15px;
-            transition: all 0.3s ease;
+            min-height: 105px;
+            padding: 12px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
             position: relative;
+            overflow: hidden;
         }
 
-        .day-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: var(--accent); }
-        
-        .day-number { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
-        .main-item-preview { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .day-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
 
-        .is-today { background: #fffbeb !important; border: 2px solid var(--today-glow) !important; }
-        .today-tag { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; background: var(--today-glow); color: white; padding: 2px 5px; border-radius: 4px; font-weight: 800; }
+        .day-number {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
 
-        .empty-slot { background: rgba(0, 0, 0, 0.02); border: 1px dashed #cbd5e1; cursor: default; }
+        .main-item-preview {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            line-height: 1.3;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .is-today {
+            background: rgba(254, 243, 199, 0.6) !important;
+            border: 2px solid var(--today-glow) !important;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.2) !important;
+        }
+        [data-theme="dark"] .is-today {
+            background: rgba(120, 53, 15, 0.3) !important;
+        }
+
+        .today-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.55rem;
+            background: var(--today-glow);
+            color: #78350f;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        [data-theme="dark"] .today-tag {
+            color: #ffffff;
+        }
+
+        .empty-slot {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px dashed var(--card-border);
+            cursor: default;
+        }
 
         /* Modal */
         .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 9999;
-            align-items: center; justify-content: center; padding: 15px; box-sizing: border-box;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
         }
 
         .modal-content {
-            background: white; width: 100%; max-width: 450px; border-radius: 25px;
-            padding: 30px; position: relative; animation: slideUp 0.3s ease-out;
-            max-height: 90vh; overflow-y: auto;
+            background: var(--modal-bg);
+            width: 100%;
+            max-width: 460px;
+            border-radius: 28px;
+            padding: 28px;
+            position: relative;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-lg);
         }
 
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
-        .close-modal { position: absolute; top: 15px; right: 15px; background: #f1f5f9; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        .close-modal {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .close-modal:hover {
+            color: var(--text-main);
+            transform: rotate(90deg);
+        }
 
-        .modal-header h3 { font-size: 2rem; margin: 0; color: var(--primary); }
-        .modal-header p { color: var(--text-muted); margin: 5px 0 25px; font-weight: 600; }
+        .modal-header h3 {
+            font-size: 2.2rem;
+            margin: 0;
+            color: var(--text-main);
+            font-weight: 800;
+        }
+        .modal-header p {
+            color: var(--text-muted);
+            margin: 4px 0 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
 
-        .detail-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
-        .detail-item:last-of-type { border-bottom: none; }
-        
-        .icon-circle { width: 44px; height: 44px; background: #f8fafc; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .detail-item:last-of-type {
+            border-bottom: none;
+        }
 
-        .detail-text label { display: block; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
-        .detail-text span { font-size: 0.95rem; font-weight: 600; color: #334155; line-height: 1.2; }
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.3rem;
+        }
 
-        .kcal-tag { background: #f1f5f9; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; display: block; text-align: center; margin-top: 20px; color: var(--primary); }
+        .detail-text label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        .detail-text span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.25;
+        }
 
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            header { padding: 30px 15px 15px; }
-            header h2 { font-size: 1.4rem; }
-            .calendar-grid, .calendar-nav { gap: 6px; }
-            .day-card { min-height: 60px; padding: 10px 5px; border-radius: 12px; align-items: center; }
-            .day-number { font-size: 1.1rem; margin-bottom: 0; }
-            .main-item-preview { display: none; }
-            .today-tag { font-size: 0.45rem; top: 4px; right: 4px; padding: 1px 3px; }
-            .modal-content { padding: 25px 20px; }
-            .modal-header h3 { font-size: 1.6rem; }
-            .tab-btn { padding: 10px 15px; font-size: 0.8rem; }
+        .kcal-tag {
+            background: var(--surface-elevated);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-main);
+        }
+
+        /* PWA iOS Rehberi */
+        .ios-pwa-sheet {
+            display: none;
+            background: var(--surface-elevated);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 15px;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            color: var(--text-main);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            background: var(--header-bg);
+        }
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 680px) {
+            header {
+                padding: 16px 12px 14px;
+            }
+            .header-top-row {
+                margin-bottom: 8px;
+            }
+            header h2 {
+                font-size: 1.35rem;
+                margin-bottom: 12px;
+            }
+            .hero-today-card {
+                padding: 18px 14px;
+                border-radius: 20px;
+            }
+            .hero-main-title {
+                font-size: 1.25rem;
+            }
+            .hero-items-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .calendar-grid, .calendar-nav {
+                gap: 4px;
+            }
+            .day-card {
+                min-height: 64px;
+                padding: 8px 4px;
+                border-radius: 12px;
+                align-items: center;
+            }
+            .day-number {
+                font-size: 1.05rem;
+                margin-bottom: 0;
+            }
+            .main-item-preview {
+                display: none;
+            }
+            .today-tag {
+                font-size: 0.45rem;
+                top: 3px;
+                right: 3px;
+                padding: 1px 4px;
+            }
+            .modal-content {
+                padding: 22px 16px;
+                border-radius: 24px;
+            }
+            .modal-header h3 {
+                font-size: 1.7rem;
+            }
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.82rem;
+            }
         }
     </style>
 </head>
 <body>
 
+<!-- Toast Notification -->
+<div id="toast">
+    <span id="toast-icon">✨</span>
+    <span id="toast-text">Bildirim</span>
+</div>
+
 <header>
-    <h1>made by Arda Utancak</h1>
+    <div class="header-top-row">
+        <div class="brand-meta">
+            <h1>GSB MANİSA • YURT REHBERİ</h1>
+            <span class="brand-author">made by Arda Utancak</span>
+        </div>
+        <div class="header-controls">
+            <!-- Bildirim Aç Butonu -->
+            <button id="notify-btn" class="icon-btn" onclick="setupNotifications()" title="Menü Bildirimlerini Aç">
+                🔔
+            </button>
+            
+            <!-- PWA Yükle Butonu -->
+            <button id="install-btn" class="icon-btn" onclick="triggerPwaInstall()" title="Uygulamayı Telefona İndir" style="display: none;">
+                📲
+            </button>
+            
+            <!-- Dark Mode Toggle -->
+            <button id="theme-btn" class="icon-btn" onclick="toggleTheme()" title="Karanlık/Aydınlık Tema">
+                🌙
+            </button>
+        </div>
+    </div>
+
     <h2>Ekim 2026 Yemek Rehberi</h2>
+
     <div class="menu-tabs">
-        <button class="tab-btn active" onclick="switchMenu('dinner', event)">Akşam Yemeği</button>
-        <button class="tab-btn" onclick="switchMenu('breakfast', event)">Kahvaltı</button>
+        <button id="tab-dinner" class="tab-btn active" onclick="switchMenu('dinner', event)">
+            <span>🌙</span> Akşam Yemeği
+        </button>
+        <button id="tab-breakfast" class="tab-btn" onclick="switchMenu('breakfast', event)">
+            <span>🍳</span> Kahvaltı
+        </button>
     </div>
 </header>
 
 <div class="container">
+
+    <!-- ========================================================
+         "BUGÜNÜN MENÜSÜ" HERO KARTI (Tıklanınca Detay Modalı Açar)
+    ======================================================== -->
+    <div id="hero-card" class="hero-today-card" onclick="openTodayModal()" title="Detayları görmek için tıklayın">
+        <div class="hero-badge-row">
+            <div class="hero-live-badge">
+                <span class="live-dot"></span>
+                <span id="hero-date-title">BUGÜN • 26 EKİM</span>
+            </div>
+            <div class="hero-meta-right">
+                <div class="hero-kcal-pill" id="hero-kcal">⚡ ~1100 kkal</div>
+                <div class="hero-hint-pill">Detaylar ↗</div>
+            </div>
+        </div>
+
+        <div class="hero-main-title" id="hero-main-dish">
+            <span>🍗</span> Tavuk Külbastı / Fırın Patates İle
+        </div>
+
+        <!-- Günün Çorba, Alternatif, Yan vb. Detayları -->
+        <div class="hero-items-grid" id="hero-grid"></div>
+    </div>
+
+    <!-- PWA iOS Rehberi -->
+    <div id="ios-guide" class="ios-pwa-sheet">
+        📲 <strong>Uygulamayı Ana Ekrana Ekle:</strong> Safari'nin altındaki <strong>Paylaş</strong> simgesine tıklayın ve ardından <strong>"Ana Ekrana Ekle"</strong> deyin.
+    </div>
+
+    <!-- Takvim Başlığı -->
+    <div class="calendar-section-title">
+        <h3>Tüm Ayın Takvimi</h3>
+        <span class="calendar-hint">Detaylar için güne tıklayın</span>
+    </div>
+
     <div class="calendar-nav">
         <div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div>
     </div>
     <div id="calendar" class="calendar-grid"></div>
 </div>
 
+<!-- ========================================================
+     DETAY MODALI
+======================================================== -->
 <div id="overlay" class="modal-overlay">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModal()">×</button>
@@ -171,12 +792,25 @@
     </div>
 </div>
 
+<footer>
+    <p>GSB Manisa Yurtları Yemek Bilgilendirme Sistemi</p>
+    <p style="margin-top: 5px; font-size: 0.72rem; opacity: 0.7;">
+        Tasarım ve Geliştirme: <a href="https://kykyemek.vercel.app/" target="_blank">Arda Utancak</a> • PWA Destekli
+    </p>
+</footer>
+
 <script>
+    // Vercel Analytics Desteği
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
     let currentMode = 'dinner';
-    const today = new Date().getDate();
-    const currentMonth = new Date().getMonth();
-    
+    let deferredPrompt = null;
+
+    // Gerçek Zamanlı Gün Belirleme (Ekim 2026 için)
+    const todayDateObj = new Date();
+    const todayNum = todayDateObj.getDate();
+    const activeToday = (todayNum >= 1 && todayNum <= 31) ? todayNum : 26;
+
     // Ekim 2026 Akşam Yemeği Verileri
     const dinnerData = {
         "1": { d: "Perşembe", c: "Yüksük Çorbası", a: "El Yapımı Tavuk Şnitzel (Küp Patates İle)", s: "Bulgur Pilavı (Sade/Yoğurt İle)", y: "Makarna Çeşitleri", e: "Ege Salata, Su", k: "960-1200" },
@@ -247,39 +881,78 @@
         "31": { d: "Cumartesi", a: "Haşlanmış Yumurta", s: "Salçalı Sosis / Sosis Kızartması", y: "Peynirli/Ispanaklı Börek", e: "Kaşar Peynir, Siyah/Yeşil Zeytin, Çay", k: "910" }
     };
 
+    // ========================================================
+    // HERO KARTI YENİLEME
+    // ========================================================
+    function updateHeroCard() {
+        const dataSet = currentMode === 'dinner' ? dinnerData : breakfastData;
+        const d = dataSet[activeToday] || dataSet["1"];
+
+        document.getElementById('hero-date-title').innerText = `BUGÜN • ${activeToday} EKİM (${d.d})`;
+        document.getElementById('hero-kcal').innerText = d.k === "-" ? "⚡ Kalori Bilgisi Yok" : `⚡ ~${d.k} kkal`;
+        
+        const icon = currentMode === 'dinner' ? '🍲' : '🍳';
+        document.getElementById('hero-main-dish').innerHTML = `<span>${icon}</span> ${d.a}`;
+
+        const grid = document.getElementById('hero-grid');
+        grid.innerHTML = currentMode === 'dinner' ? `
+            <div class="hero-item-box"><div class="h-icon">🥣</div><div class="h-text"><label>Çorba</label><span>${d.c}</span></div></div>
+            <div class="hero-item-box"><div class="h-icon">🥗</div><div class="h-text"><label>Alternatif</label><span>${d.s}</span></div></div>
+            <div class="hero-item-box"><div class="h-icon">🍚</div><div class="h-text"><label>Yardımcı</label><span>${d.y}</span></div></div>
+            <div class="hero-item-box"><div class="h-icon">🍎</div><div class="h-text"><label>Ekstra</label><span>${d.e}</span></div></div>
+        ` : `
+            <div class="hero-item-box"><div class="h-icon">🥐</div><div class="h-text"><label>Hamur İşi / Yan</label><span>${d.s}</span></div></div>
+            <div class="hero-item-box"><div class="h-icon">🧀</div><div class="h-text"><label>Peynir</label><span>${d.y}</span></div></div>
+            <div class="hero-item-box"><div class="h-icon">☕</div><div class="h-text"><label>İçecek / Ek</label><span>${d.e}</span></div></div>
+        `;
+    }
+
+    function openTodayModal() {
+        openModal(activeToday, currentMode);
+    }
+
+    // ========================================================
+    // TAKVİM OLUŞTURMA
+    // ========================================================
     function build(mode) {
         const calendar = document.getElementById('calendar');
         calendar.innerHTML = '';
         const dataSet = mode === 'dinner' ? dinnerData : breakfastData;
 
-        // Ekim 2026 Perşembe günü başlıyor (3 adet boş slot ekliyoruz Pazartesi, Salı, Çarşamba için)
+        // Ekim 2026 Perşembe ile başlıyor -> Pzt, Sal, Çar için 3 boş kutu
         for(let i=0; i<3; i++) {
             const div = document.createElement('div');
             div.className = 'day-card empty-slot';
             calendar.appendChild(div);
         }
 
-        // Ekim ayı 31 gün
+        // 31 Gün
         for(let day=1; day<=31; day++) {
             const data = dataSet[day];
-            const isTodayClass = (day === today && currentMonth === 9) ? 'is-today' : '';
+            const isToday = (day === activeToday);
+
             const card = document.createElement('div');
-            card.className = `day-card ${isTodayClass}`;
+            card.className = `day-card ${isToday ? 'is-today' : ''}`;
             card.innerHTML = `
-                ${(day === today && currentMonth === 9) ? '<div class="today-tag">BUGÜN</div>' : ''}
+                ${isToday ? '<div class="today-tag">BUGÜN</div>' : ''}
                 <div class="day-number">${day}</div>
                 <div class="main-item-preview">${data.a}</div>
             `;
             card.onclick = () => openModal(day, mode);
             calendar.appendChild(card);
         }
+
+        updateHeroCard();
     }
 
+    // ========================================================
+    // MODAL DETAY
+    // ========================================================
     function openModal(day, mode) {
         const d = mode === 'dinner' ? dinnerData[day] : breakfastData[day];
 
         document.getElementById('m-date').innerText = day < 10 ? '0' + day : day;
-        document.getElementById('m-day').innerText = d.d + " Ekim 2026";
+        document.getElementById('m-day').innerText = `${d.d} • Ekim 2026`;
 
         const details = document.getElementById('modal-details');
         details.innerHTML = mode === 'dinner' ? `
@@ -287,7 +960,7 @@
             <div class="detail-item"><div class="icon-circle">🍖</div><div class="detail-text"><label>Ana Yemek</label><span>${d.a}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🥗</div><div class="detail-text"><label>Alternatif</label><span>${d.s}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🍚</div><div class="detail-text"><label>Yardımcı</label><span>${d.y}</span></div></div>
-            <div class="detail-item"><div class="icon-circle">🍎</div><div class="detail-text"><label>Ek</label><span>${d.e}</span></div></div>
+            <div class="detail-item"><div class="icon-circle">🍎</div><div class="detail-text"><label>Ek / Tatlı</label><span>${d.e}</span></div></div>
         ` : `
             <div class="detail-item"><div class="icon-circle">🍳</div><div class="detail-text"><label>Sıcak Kahvaltı</label><span>${d.a}</span></div></div>
             <div class="detail-item"><div class="icon-circle">🥐</div><div class="detail-text"><label>Hamur İşi / Yan</label><span>${d.s}</span></div></div>
@@ -296,28 +969,170 @@
         `;
 
         document.getElementById('m-kcal').innerText = d.k === "-" ? `⚡ Kalori Verisi Yok` : `⚡ Ortalama ${d.k} kkal`;
+
         document.getElementById('overlay').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Scrollu engelle
+        document.body.style.overflow = 'hidden';
     }
 
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    window.onclick = (e) => { if (e.target === document.getElementById('overlay')) closeModal(); };
+
+    // ========================================================
+    // MENÜ SEKMESİ GEÇİŞİ
+    // ========================================================
     function switchMenu(mode, event) {
         currentMode = mode;
         const btns = document.querySelectorAll('.tab-btn');
         btns.forEach(b => b.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-        
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        } else {
+            const activeBtn = document.getElementById(`tab-${mode}`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
         document.documentElement.style.setProperty('--accent', mode === 'dinner' ? 'var(--accent-dinner)' : '#2563eb');
         build(mode);
     }
 
-    function closeModal() { 
-        document.getElementById('overlay').style.display = 'none'; 
-        document.body.style.overflow = 'auto'; // Scrollu aç
+    // ========================================================
+    // KARANLIK TEMA (DARK MODE) - DEFAULT BEYAZ (LOCALSTORAGE YOK)
+    // ========================================================
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const target = current === 'dark' ? 'light' : 'dark';
+        applyTheme(target);
+        showToast(target === 'dark' ? 'Koyu tema aktif 🌙' : 'Aydınlık tema aktif ☀️', target === 'dark' ? '🌙' : '☀️');
     }
 
-    window.onclick = (e) => { if(e.target == document.getElementById('overlay')) closeModal(); }
-    
-    build('dinner');
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const btn = document.getElementById('theme-btn');
+        if (btn) btn.innerText = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // ========================================================
+    // PWA KURULUM & BİLDİRİM SİSTEMİ
+    // ========================================================
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('PWA Service Worker Kaydedildi:', reg.scope))
+                .catch(err => console.log('Service Worker Hatası:', err));
+        });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('install-btn');
+        if (installBtn) installBtn.style.display = 'flex';
+    });
+
+    function triggerPwaInstall() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    showToast('Uygulama başarıyla yüklendi! 🎉', '📱');
+                }
+                deferredPrompt = null;
+                document.getElementById('install-btn').style.display = 'none';
+            });
+        } else {
+            const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+            if (isIos) {
+                const guide = document.getElementById('ios-guide');
+                guide.style.display = guide.style.display === 'block' ? 'none' : 'block';
+            } else {
+                showToast('Tarayıcınızın ayarlarından "Ana Ekrana Ekle" diyebilirsiniz.', '📲');
+            }
+        }
+    }
+
+    function setupNotifications() {
+        if (!('Notification' in window)) {
+            showToast('Tarayıcınız bildirim özelliğini desteklemiyor.', '⚠️');
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            showToast('Menü bildirimleri zaten aktif! 🔔', '✅');
+            sendTestNotification();
+            return;
+        }
+
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                showToast('Bildirimler aktif! Her gün menü cebinizde 🍽️', '🔔');
+                sendTestNotification();
+            } else {
+                showToast('Bildirim izni reddedildi.', '❌');
+            }
+        });
+    }
+
+    function sendTestNotification() {
+        if (Notification.permission === 'granted') {
+            const dataSet = currentMode === 'dinner' ? dinnerData : breakfastData;
+            const todayItem = dataSet[activeToday] ? dataSet[activeToday].a : 'Günün Menüsü';
+            new Notification('KYK Yemek Rehberi', {
+                body: `Bugünkü Menü: ${todayItem} 🍽️`,
+                icon: 'icon-192.png',
+                badge: 'icon-192.png'
+            });
+        }
+    }
+
+    // ========================================================
+    // TOAST BİLDİRİM YARDIMCISI
+    // ========================================================
+    let toastTimeout = null;
+    function showToast(text, icon = '✨') {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-icon').innerText = icon;
+        document.getElementById('toast-text').innerText = text;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3200);
+    }
+
+    // ========================================================
+    // AKILLI SAAT VE İLK BAŞLATMA SİSTEMİ
+    // ========================================================
+    (function init() {
+        // 1. Varsayılan olarak her zaman aydınlık (beyaz) tema ile başla
+        applyTheme('light');
+
+        // 2. Akıllı Saat Geçişi:
+        // - Kahvaltı: 06:00 ile 12:30 arası (06:00 - 12:30)
+        // - Akşam Yemeği: 12:30 ile 23:59 arası
+        // - 23:59'dan sonra (00:00 - 12:30 arası) otomatik olarak Kahvaltıya geçiş
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const lunchBoundary = 12 * 60 + 30; // 12:30 = 750. dakika
+
+        if (currentMinutes >= lunchBoundary) {
+            // 12:30 - 23:59 arası -> Akşam Yemeği
+            currentMode = 'dinner';
+            document.getElementById('tab-breakfast').classList.remove('active');
+            document.getElementById('tab-dinner').classList.add('active');
+            document.documentElement.style.setProperty('--accent', 'var(--accent-dinner)');
+        } else {
+            // 23:59'dan sonra (00:00 - 12:29 arası) -> Kahvaltı
+            currentMode = 'breakfast';
+            document.getElementById('tab-dinner').classList.remove('active');
+            document.getElementById('tab-breakfast').classList.add('active');
+            document.documentElement.style.setProperty('--accent', '#2563eb');
+        }
+
+        build(currentMode);
+    })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
