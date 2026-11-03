@@ -881,7 +881,7 @@
     const todayNum = todayDateObj.getDate();
     const activeToday = (todayNum >= 1 && todayNum <= 30) ? todayNum : 1;
 
-    // Kasım 2026 Akşam Yemeği Verileri (1-15 Kasım resmi liste, 16-30 Kasım için güncellenecektir)
+    // Kasım 2026 Akşam Yemeği Verileri (1-30 Kasım Tam Liste)
     const dinnerData = {
         "1": { d: "Pazar", c: "Salçalı Mercimek Çorbası / Yayla Çorbası", a: "Beşamel Soslu Tavuk", s: "Mücver (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Haydari, Su", k: "926-1041" },
         "2": { d: "Pazartesi", c: "Anadolu Çorba / Ezogelin Çorba", a: "Et Tantuni (Ekmek veya Lavaş İle)", s: "Mevsim Türlü", y: "Bulgur Pilavı", e: "Ayran / Şalgam Suyu, Su", k: "808-1130" },
@@ -891,28 +891,28 @@
         "6": { d: "Cuma", c: "Ezogelin Çorba / Düğün Çorba", a: "Nohut Yemeği", s: "Taze Fasulye", y: "Pirinç Pilavı", e: "Cevizli Baklava, Su", k: "1146-1347" },
         "7": { d: "Cumartesi", c: "Salçalı Mercimek Çorba / Yayla Çorba", a: "Kemiksiz İncik Külbastı (Küp Patates İle)", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Meyveli Pasta, Su", k: "1220-1438" },
         "8": { d: "Pazar", c: "Domates Çorba / Anadolu Çorba", a: "Ekmek Arası Köfte / Tavuk Izgara (Patates İle)", s: "Patates Graten", y: "Yeşil Mercimekli Bulgur Pilavı", e: "Ayran, Su", k: "950-1145" },
-        "9": { d: "Pazartesi", c: "Mercimek Çorba / Tarhana Çorba", a: "Kuşbaşılı Patlıcan Kebabı / Tavuk Sote", s: "Barbunya Yemeği", y: "Pirinç Pilavı", e: "Mevsim Salata, Su", k: "850-1100" },
-        "10": { d: "Salı", c: "Sebze Çorba / Mahluta Çorba", a: "Köri Soslu Tavuk", s: "Çıtır Karnabahar (Yoğurt İle)", y: "Makarna Çeşidi", e: "Meyve / İçecek, Su", k: "950-1150" },
-        "11": { d: "Çarşamba", c: "Tavuksuyu Çorba / Ezogelin Çorba", a: "Kuru Fasulye Yemeği", s: "İmambayıldı", y: "Şehriyeli Pirinç Pilavı", e: "Cacık, Su", k: "1000-1250" },
-        "12": { d: "Perşembe", c: "Mercimek Çorba / Domates Çorba", a: "Çıtır Tavuk (Patates İle)", s: "Mevsim Sebze Yemeği", y: "Bulgur Pilavı", e: "Tatlı, Su", k: "900-1150" },
-        "13": { d: "Cuma", c: "Tarhana Çorba / Sebze Çorba", a: "Izgara Köfte / Tavuk Külbastı", s: "Karışık Sebze Graten (Yoğurt İle)", y: "Pirinç Pilavı", e: "İçecek / Salata, Su", k: "1050-1300" },
-        "14": { d: "Cumartesi", c: "Ezogelin Çorba / Şehriye Çorba", a: "Şehriyeli Güveç Kebabı / Tavuk Döner", s: "Karışık Dolma / Taze Fasulye", y: "Makarna Çeşidi", e: "Tatlı, Su", k: "1100-1350" },
-        "15": { d: "Pazar", c: "Salçalı Mercimek Çorba / Mantar Çorba", a: "Çoban Kavurma / Tavuk Sote / Tavuk Baget", s: "Sebze Sote", y: "Pirinç Pilavı", e: "Ayran, Su", k: "950-1114" },
-        "16": { d: "Pazartesi", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "17": { d: "Salı", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "18": { d: "Çarşamba", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "19": { d: "Perşembe", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "20": { d: "Cuma", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "21": { d: "Cumartesi", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "22": { d: "Pazar", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "23": { d: "Pazartesi", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "24": { d: "Salı", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "25": { d: "Çarşamba", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "26": { d: "Perşembe", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "27": { d: "Cuma", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "28": { d: "Cumartesi", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "29": { d: "Pazar", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" },
-        "30": { d: "Pazartesi", c: "Yeni Liste Bekleniyor", a: "Menü Açıklanmadı (Liste Bekleniyor)", s: "-", y: "-", e: "-", k: "-" }
+        "9": { d: "Pazartesi", c: "Mercimek Çorba / Tarhana Çorba", a: "Kuşbaşılı Patlıcan Kebabı / Tavuk Sote", s: "Barbunya Yemeği", y: "Pirinç Pilavı", e: "Karışık Salata, Su", k: "916-994" },
+        "10": { d: "Salı", c: "Sebze Çorba / Mahluta Çorba", a: "Köri Soslu Tavuk", s: "Çıtır Karnabahar (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Havuç Tarator, Su", k: "963-1136" },
+        "11": { d: "Çarşamba", c: "Tavuksuyu Çorba / Ezogelin Çorba", a: "Kuru Fasulye Yemeği", s: "İmambayıldı", y: "Garnitürlü Pirinç Pilavı", e: "Haşhaşlı Revani, Su", k: "1202-1356" },
+        "12": { d: "Perşembe", c: "Mercimek Çorba / Domates Çorba", a: "Çıtır Tavuk (Küp Patates İle)", s: "Taze Fasulye", y: "Bulgur Pilavı", e: "Ege Salata, Su", k: "930-1259" },
+        "13": { d: "Cuma", c: "Tarhana Çorba / Sebze Çorba", a: "Izgara Köfte (Izgara Sebze İle) / Tavuk Külbastı", s: "Mücver (Yoğurt İle)", y: "Pirinç Pilavı", e: "Ayran veya Meyve Suyu, Su", k: "822-1151" },
+        "14": { d: "Cumartesi", c: "Ezogelin Çorba / Şehriye Çorba", a: "Tavuk Fajita", s: "Karışık Dolma (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Triliçe, Su", k: "1261-1350" },
+        "15": { d: "Pazar", c: "Salçalı Mercimek Çorba / Mantar Çorba", a: "Çoban Kavurma / Patates-Havuçlu Tavuk Baget", s: "Sebze Sote", y: "Arpa Şehriyeli Pirinç Pilavı", e: "Yoğurtlu Köz Biber, Su", k: "786-1151" },
+        "16": { d: "Pazartesi", c: "Domates Çorbası / Sebze Çorbası", a: "Tavuk Tantuni (Ekmek veya Lavaş İle)", s: "Lahana Sarması (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Ege Salata, Su", k: "1013-1111" },
+        "17": { d: "Salı", c: "Ezogelin Çorbası / Toyga Çorbası", a: "İzmir Köfte / Sebzeli Fırın Tavuk", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Tahinli Kabak Tatlısı, Su", k: "1127-1164" },
+        "18": { d: "Çarşamba", c: "Yüksük Çorbası / Mercimek Çorbası", a: "Beşamel Soslu Tavuk", s: "Ispanak Yemeği (Yoğurt İle)", y: "Cevizli Erişte", e: "Akdeniz Salata, Su", k: "1055-1188" },
+        "19": { d: "Perşembe", c: "Yayla Çorbası / Tarhana Çorbası", a: "Akçaabat Köfte (Fırın Sebze İle) / El Yapımı Şnitzel", s: "Karnabahar Kızartması (Yoğurt İle)", y: "Sebzeli Bulgur Pilavı", e: "Ayran, Su", k: "1037-1204" },
+        "20": { d: "Cuma", c: "Tavuksuyu Çorba / Mahluta Çorbası", a: "Kuru Fasulye Yemeği", s: "Karışık Sebze Graten", y: "Şehriyeli Pirinç Pilavı", e: "Cevizli Kadayıf, Su", k: "1110-1252" },
+        "21": { d: "Cumartesi", c: "Ezogelin Çorbası / Sebze Çorbası", a: "Tavuk Şiş (Küp Patates Kızartması İle)", s: "Biber Dolma (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Pembe Sultan, Su", k: "1041-1209" },
+        "22": { d: "Pazar", c: "Domates Çorbası / Arpa Şehriye Çorbası", a: "Etli Belen Tava / Tavuklu Belen Tava", s: "İmambayıldı", y: "Domatesli Bulgur Pilavı", e: "Kıvırcık Salata, Su", k: "954-1113" },
+        "23": { d: "Pazartesi", c: "Tarhana Çorbası / Çeşminigar Çorbası", a: "Tavuk Sote", s: "Nohut Yemeği", y: "Pirinç Pilavı", e: "Mozaik Pasta, Su", k: "1220-1330" },
+        "24": { d: "Salı", c: "Toyga Çorbası / Mahluta Çorbası", a: "Et Hamburger (El Yapımı Hamburger Köftesi + Patates)", s: "Taze Fasulye Yemeği", y: "Makarna Çeşidi (Sos İle)", e: "Ayran / Meyve Suyu / Şalgam, Su", k: "900-1244" },
+        "25": { d: "Çarşamba", c: "Yayla Çorbası / Ezogelin Çorbası", a: "Hünkar Beğendi / Beşamel Soslu Tavuk", s: "Sebze Sote", y: "Bahar Pilavı", e: "Biber Tarator, Su", k: "846-1080" },
+        "26": { d: "Perşembe", c: "Yüksük Çorbası / Şehriye Çorbası", a: "Tavuk Çökertme", s: "Lahana Sarması (Yoğurt İle)", y: "Makarna Çeşidi (Sos İle)", e: "Karışık Salata, Su", k: "1051-1284" },
+        "27": { d: "Cuma", c: "Düğün Çorbası / Tarhana Çorbası", a: "Nohut Yemeği", s: "Karışık Sebze Graten", y: "Pirinç Pilavı", e: "Kalburabastı, Su", k: "1122-1284" },
+        "28": { d: "Cumartesi", c: "Mercimek Çorbası / Domates Çorbası", a: "Tas Kebabı / Köri Soslu Tavuk", s: "Mücver (Yoğurt İle)", y: "Sebzeli Bulgur Pilavı", e: "Yoğurt, Su", k: "972-1133" },
+        "29": { d: "Pazar", c: "Yayla Çorbası / Yüksük Çorbası", a: "Kemikli Tavuk Pirzola", s: "Fellah Köfte", y: "Mantı (Sos / Yoğurt İle)", e: "Piyaz Çeşidi, Su", k: "956-1127" },
+        "30": { d: "Pazartesi", c: "Sebze Çorbası / Ezogelin Çorbası", a: "Tire Köfte (Pide + Fırın Biber/Soğan) / Tavuk Çökertme", s: "Kuru Fasulye Yemeği", y: "Şehriyeli Pirinç Pilavı", e: "Haydari, Su", k: "800-1014" }
     };
 
     // Kasım 2026 Kahvaltı Verileri (1-30 Kasım Tam Liste)
