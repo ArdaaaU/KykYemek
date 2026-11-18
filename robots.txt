@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kykyemek.vercel.app/sitemap.xml
+Sitemap: https://kykyemek.pages.dev/sitemap.xml
